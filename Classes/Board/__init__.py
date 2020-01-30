@@ -1,5 +1,6 @@
 import pygame
 import sys
+from ..Cell import *
 
 
 class Board:
@@ -79,5 +80,7 @@ class Board:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:
                         coords = self.get_click(event.pos)
+                        if isinstance(coords, list):
+                            self.board[coords[0]][coords[1]] = Cell(self)
             self.board_render(screen)
             pygame.display.flip()
