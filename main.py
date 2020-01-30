@@ -1,6 +1,5 @@
 from Classes.Board import *
 
-
 X = 10
 Y = 10
 CELL_SIZE = 30
