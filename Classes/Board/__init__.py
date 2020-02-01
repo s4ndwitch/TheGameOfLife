@@ -60,8 +60,12 @@ class Board:
         """
         for line in range(len(self.board)):
             for cell in range(len(self.board[line])):
-                pygame.draw.rect(screen, (255, 255, 255),
-                                 (cell * self.cell_size, line * self.cell_size, self.cell_size, self.cell_size), 1)
+                if self.board[line][cell] is None:
+                    pygame.draw.rect(screen, (255, 255, 255),
+                            (cell * self.cell_size, line * self.cell_size, self.cell_size, self.cell_size), 1)
+                if isinstance(self.board[line][cell], Cell):
+                    pygame.draw.rect(screen, (0, 255, 0),
+                            (cell * self.cell_size, line * self.cell_size, self.cell_size, self.cell_size))
 
     def run(self):
         """
