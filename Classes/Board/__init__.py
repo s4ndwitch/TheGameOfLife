@@ -81,6 +81,6 @@ class Board:
                     if event.button == 1:
                         coords = self.get_click(event.pos)
                         if isinstance(coords, list):
-                            self.board[coords[0]][coords[1]] = Cell(self)
+                            self.board[coords[1]][coords[0]] = Cell(self, coords[0], coords[1])
             self.board_render(screen)
             pygame.display.flip()

@@ -20,9 +20,9 @@ class Cell:
                     pass  # TODO
         if direction == "RIGHT":
             if self.x < len(self.board):
-                if self.board[self.y][x + 1] == None:
-                    self.board[self.y][x + 1] = self
-                    self.board[self.y][x] = None
+                if self.board[self.y][self.x + 1] is None:
+                    self.board[self.y][self.x + 1] = self
+                    self.board[self.y][self.x] = None
                     self.x += 1
         if direction == "DOWN":
             pass  # TODO
