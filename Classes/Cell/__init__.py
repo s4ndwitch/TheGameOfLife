@@ -16,18 +16,28 @@ class Cell:
     def move(self, direction):
         if direction == "UP":
             if self.y > 0:
-                if self.board[self.y - 1][x] == None:
-                    pass  # TODO
+                if self.board[self.y - 1][self.x] is None:
+                    self.board[self.y - 1][self.x] = self
+                    self.board[self.y][self.x] = None
+                    self.y -= 1
         if direction == "RIGHT":
-            if self.x < len(self.board):
+            if self.x < len(self.board[0]) - 1:
                 if self.board[self.y][self.x + 1] is None:
                     self.board[self.y][self.x + 1] = self
                     self.board[self.y][self.x] = None
                     self.x += 1
         if direction == "DOWN":
-            pass  # TODO
+            if self.y < len(self.board) - 1:
+                if self.board[self.y + 1][self.x] is None:
+                    self.board[self.y + 1][self.x] = self
+                    self.board[self.y][self.x] = None
+                    self.y += 1
         if direction == "LEFT":
-            pass  # TODO
+            if self.x > 0:
+                if self.board[self.y][self.x - 1] is None:
+                    self.board[self.y][self.x - 1] = self
+                    self.board[self.y][self.x] = None
+                    self.x -= 1
 
     def do(self, command):
         if command == "MOVE UP":
