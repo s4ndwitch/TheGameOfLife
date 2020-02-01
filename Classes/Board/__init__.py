@@ -21,6 +21,11 @@ class Board:
         self.board = [[None for _ in range(x)] for _ in range(y)]
         self.run()
 
+    def update(self):
+        for line in board:
+            for cell in line:
+                cell.update()
+
     def search_on_board(self, mouse_pos):
         """
         Ищет, какая клетка была нажата на поле.
@@ -86,5 +91,6 @@ class Board:
                         coords = self.get_click(event.pos)
                         if isinstance(coords, list):
                             self.board[coords[1]][coords[0]] = Cell(self, coords[0], coords[1])
+            self.update()
             self.board_render(screen)
             pygame.display.flip()

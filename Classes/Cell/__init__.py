@@ -10,7 +10,7 @@ class Cell:
         self.x = x
         self.y = y
         self.board = board
-        self.code = []  # TODO написать
+        self.code = [1, 1, 1, 1, 2, 2, 2, 2, 1]  # TODO написать
         self.step = 0
 
     def move(self, direction):
@@ -62,3 +62,4 @@ class Cell:
     def update(self):
         self.do(self.get(self.code[self.step]))
         self.step = (self.step + 1) % len(self.code)
+
