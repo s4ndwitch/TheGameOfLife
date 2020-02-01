@@ -2,11 +2,13 @@ class Cell:
     """
     Класс клетки -- живого существа, живущего по собственному генному коду.
     """
-    def __init__(self, board):
+    def __init__(self, board, x, y):
         """
         Принимает на вход изначальную доску, чтобы взаимодейсвтует с миром.
         :param board: изначальная доска
         """
+        self.x = x
+        self.y = y
         self.board = board
         self.code = []  # TODO написать
         self.step = 0
