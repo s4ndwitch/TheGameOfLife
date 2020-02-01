@@ -16,27 +16,27 @@ class Cell:
     def move(self, direction):
         if direction == "UP":
             if self.y > 0:
-                if self.board[self.y - 1][self.x] is None:
-                    self.board[self.y - 1][self.x] = self
-                    self.board[self.y][self.x] = None
+                if self.board.board[self.y - 1][self.x] is None:
+                    self.board.baord[self.y - 1][self.x] = self
+                    self.board.board[self.y][self.x] = None
                     self.y -= 1
         if direction == "RIGHT":
-            if self.x < len(self.board[0]) - 1:
-                if self.board[self.y][self.x + 1] is None:
-                    self.board[self.y][self.x + 1] = self
-                    self.board[self.y][self.x] = None
+            if self.x < len(self.board.baord[0]) - 1:
+                if self.board.baord[self.y][self.x + 1] is None:
+                    self.board.board[self.y][self.x + 1] = self
+                    self.board.board[self.y][self.x] = None
                     self.x += 1
         if direction == "DOWN":
-            if self.y < len(self.board) - 1:
-                if self.board[self.y + 1][self.x] is None:
-                    self.board[self.y + 1][self.x] = self
-                    self.board[self.y][self.x] = None
+            if self.y < len(self.board.board) - 1:
+                if self.board.board[self.y + 1][self.x] is None:
+                    self.board.baord[self.y + 1][self.x] = self
+                    self.board.baord[self.y][self.x] = None
                     self.y += 1
         if direction == "LEFT":
             if self.x > 0:
-                if self.board[self.y][self.x - 1] is None:
-                    self.board[self.y][self.x - 1] = self
-                    self.board[self.y][self.x] = None
+                if self.board.baord[self.y][self.x - 1] is None:
+                    self.board.baord[self.y][self.x - 1] = self
+                    self.board.baord[self.y][self.x] = None
                     self.x -= 1
 
     def do(self, command):
