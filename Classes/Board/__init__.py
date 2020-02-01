@@ -47,7 +47,7 @@ class Board:
         :param mouse_pos: координаты мыши в момент клика
         :return: номер кнопки или координаты клетки в формате list((x; y))
         """
-        if mouse_pos[0] < len(self.board) * self.cell_size and mouse_pos[1] < len(self.board[0]) * self.cell_size:
+        if mouse_pos[0] < len(self.board[0]) * self.cell_size and mouse_pos[1] < len(self.board) * self.cell_size:
             return self.search_on_board(mouse_pos)
         else:
             return self.search_in_gui(mouse_pos)
