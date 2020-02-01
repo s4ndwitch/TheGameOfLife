@@ -15,9 +15,15 @@ class Cell:
 
     def move(self, direction):
         if direction == "UP":
-            pass  # TODO
+            if self.y > 0:
+                if self.board[self.y - 1][x] == None:
+                    pass  # TODO
         if direction == "RIGHT":
-            pass  # TODO
+            if self.x < len(self.board):
+                if self.board[self.y][x + 1] == None:
+                    self.board[self.y][x + 1] = self
+                    self.board[self.y][x] = None
+                    self.x += 1
         if direction == "DOWN":
             pass  # TODO
         if direction == "LEFT":
