@@ -21,6 +21,7 @@ class Board:
         self.cell_size = cell_size
         self.board = [[None for _ in range(x)] for _ in range(y)]
         self.run()
+        self.count = 0
 
     def update(self):
         counts = []
