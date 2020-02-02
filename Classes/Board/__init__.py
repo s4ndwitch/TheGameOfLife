@@ -20,8 +20,8 @@ class Board:
         self.y = y
         self.cell_size = cell_size
         self.board = [[None for _ in range(x)] for _ in range(y)]
-        self.run()
         self.count = 0
+        self.run()
 
     def update(self):
         counts = []
@@ -93,7 +93,6 @@ class Board:
         pygame.init()
         tick_time = 10
         started = True
-        count = 0
         clock = pygame.time.Clock()
         screen = pygame.display.set_mode(
             (self.x * self.cell_size, self.y * self.cell_size))  # TODO раширять по мере необходимости

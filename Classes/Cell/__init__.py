@@ -93,7 +93,7 @@ class Cell:
         if num == 7:
             return "PHOTOSYNTHESIS"
 
-    def mutize(self, cell_coords):
+    def mutize(self):
         self.code[randint(0, 63)] = randint(1, 7)
 
     def double(self):
