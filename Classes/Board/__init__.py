@@ -1,6 +1,7 @@
 import pygame
 import sys
 from ..Cell import *
+from ..Wall import *
 
 
 class Board:
@@ -22,10 +23,14 @@ class Board:
         self.run()
 
     def update(self):
+        counts = []
         for line in self.board:
             for cell in line:
                 if isinstance(cell, Cell):
+                    if cell.count in counts:
+                        continue
                     cell.update()
+                    counts += [cell.count]
 
     def search_on_board(self, mouse_pos):
         """
@@ -68,10 +73,13 @@ class Board:
             for cell in range(len(self.board[line])):
                 if self.board[line][cell] is None:
                     pygame.draw.rect(screen, (255, 255, 255),
-                            (cell * self.cell_size, line * self.cell_size, self.cell_size, self.cell_size), 1)
+                                     (cell * self.cell_size, line * self.cell_size, self.cell_size, self.cell_size), 1)
                 if isinstance(self.board[line][cell], Cell):
                     pygame.draw.rect(screen, (0, 255, 0),
-                            (cell * self.cell_size, line * self.cell_size, self.cell_size, self.cell_size))
+                                     (cell * self.cell_size, line * self.cell_size, self.cell_size, self.cell_size))
+                if isinstance(self.board[line][cell], Wall):
+                    pygame.draw.rect(screen, (255, 255, 255),
+                                     (cell * self.cell_size, line * self.cell_size, self.cell_size, self.cell_size))
 
     def run(self):
         """
@@ -79,7 +87,9 @@ class Board:
         :return: ничего
         """
         pygame.init()
-        tick_time = 1
+        tick_time = 10
+        started = True
+        count = 0
         clock = pygame.time.Clock()
         screen = pygame.display.set_mode(
             (self.x * self.cell_size, self.y * self.cell_size))  # TODO раширять по мере необходимости
@@ -93,13 +103,22 @@ class Board:
                     if event.button == 1:
                         coords = self.get_click(event.pos)
                         if isinstance(coords, list):
-                            self.board[coords[1]][coords[0]] = Cell(self, coords[0], coords[1])
+                            self.board[coords[1]][coords[0]] = Cell(self, coords[0], coords[1], count)
+                            count += 1
                     if event.button == 3:
                         coords = self.get_click(event.pos)
                         if isinstance(coords, list):
                             self.board[coords[1]][coords[0]] = Wall()
-            clock.tick(tick_time)
-            self.update()
+                if event.type == pygame.KEYDOWN:
+                    keys = pygame.key.get_pressed()
+                    if keys[pygame.K_SPACE]:
+                        if started:
+                            started = False
+                        else:
+                            started = True
+            if started:
+                clock.tick(tick_time)
+                self.update()
             screen.fill((0, 0, 0))
             self.board_render(screen)
             pygame.display.flip()

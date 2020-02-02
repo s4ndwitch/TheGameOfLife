@@ -5,7 +5,8 @@ class Cell:
     """
     Класс клетки -- живого существа, живущего по собственному генному коду.
     """
-    def __init__(self, board, x, y):
+
+    def __init__(self, board, x, y, count):
         """
         Принимает на вход изначальную доску, чтобы взаимодейсвтует с миром.
         :param board: изначальная доска
@@ -15,6 +16,7 @@ class Cell:
         self.board = board
         self.code = [2, 2, 2, 2, 2, 2, 2, 2, 2, 5]  # TODO написать
         self.step = 0
+        self.count = count
 
     def move(self, direction):
         if direction == "UP":
@@ -50,7 +52,7 @@ class Cell:
                         self.code[i] = 4
         if direction == "TRIGHT":
             for i in range(len(self.code)):
-                 if self.code[i] in {1, 2, 3, 4}:
+                if self.code[i] in {1, 2, 3, 4}:
                     if self.code[i] != 4:
                         self.code[i] += 1
                     else:
