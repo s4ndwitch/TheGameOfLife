@@ -106,8 +106,8 @@ class Board:
                     if event.button == 1:
                         coords = self.get_click(event.pos)
                         if isinstance(coords, list):
-                            self.board[coords[1]][coords[0]] = Cell(self, coords[0], coords[1], count)
-                            count += 1
+                            self.board[coords[1]][coords[0]] = Cell(self, coords[0], coords[1], self.count)
+                            self.count += 1
                     if event.button == 3:
                         coords = self.get_click(event.pos)
                         if isinstance(coords, list):

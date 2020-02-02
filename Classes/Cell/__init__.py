@@ -12,6 +12,7 @@ class Cell:
         Принимает на вход изначальную доску, чтобы взаимодейсвтует с миром.
         :param board: изначальная доска
         """
+        self.step = 0
         self.dead_inside = False
         self.x = x
         self.y = y
@@ -94,11 +95,7 @@ class Cell:
             return "PHOTOSYNTHESIS"
 
     def mutize(self, cell_coords):
-        mutized = False
-        for i in range(64):
-            mut = random.randint(1, 100)
-            if mut <= 
-            self.board.board[cell_coords[1]][cell_coords[0]]
+        self.code[randint(0, 63)] = randint(1, 7)
 
     def double(self):
         doubled = False
@@ -106,6 +103,7 @@ class Cell:
             if self.board.board[self.y - 1][self.x] is None:
                 self.board.board[self.y - 1][self.x] = Cell(self.board, self.x, self.y - 1, count + 1)
                 self.board.count += 1
+                self.board.board[self.y - 1][self.x].mutize()
                 self.board.board[self.y - 1][self.x].energy = 50
                 self.board.board[self.y][self.x],energy = 50
                 doubled = True
@@ -117,7 +115,8 @@ class Cell:
             if self.x < len(self.board.board[0]) - 1:
                 if self.board.board[self.y][self.x + 1] is None:
                     self.board.board[self.y][self.x + 1] = Cell(self.board, self.x + 1, self.y, self.count + 1)
-                    self.count += 1
+                    self.board.count += 1
+                    self.board.board[self.y][self.x + 1.mutize()
                     self.board.board[self.y][self.x + 1].energy = 50
                     self.board.board[self.y][self.x].energy = 50
                     doubled = True
@@ -130,6 +129,7 @@ class Cell:
                     if self.board.board[self.y + 1][self.x] is None:
                         self.board.board[self.y + 1][self.x] = Cell(self.board, self.x, self.y + 1, self.count + 1)
                         self.board.count += 1
+                        self.board.board[self.y +1][self.x].mutize()
                         self.board.board[self.y + 1][self.x].energy = 50
                         self.board.board[self.y][self.x].energy = 50
                         doubled = True
@@ -141,7 +141,8 @@ class Cell:
                     if self.x > 0:
                         if self.board.board[self.y][self.x - 1] is None:
                             self.board.board[self.y][self.x - 1] = Cell(self.board, self.x - 1, self.y, self.count + 1)
-                            self.count += 1
+                            self.board.count += 1
+                            self.board.board[self.y][sefl.x - 1].mutize()
                             self.board.board[self.y][self.x - 1].energy = 50
                             self.board.board[self.y][self.x].energy = 50
                             doubled = True
@@ -161,9 +162,13 @@ class Cell:
     def update(self):
         if self.energy == 100:
             self.double()
+        if self.step == 20:
+            self.DIE()
         if not self.dead_inside:
             self.energy -= 5
             self.do(self.get(self.code[self.step]))
             self.step = (self.step + 1) % len(self.code)
+            self.step += 1
             if self.energy == 0:
                 self.DIE()
+
