@@ -76,7 +76,7 @@ class Board:
                                      (cell * self.cell_size, line * self.cell_size, self.cell_size, self.cell_size), 1)
                 if isinstance(self.board[line][cell], Cell):
                     if self.board[line][cell].dead_inside:
-                        pygame.draw.rect(scree, (162, 168, 172),
+                        pygame.draw.rect(screen, (162, 168, 172),
                                 (cell * self.cell_size, line * self.cell_size, self.cell_size, self.cell_size))
                         continue
                     pygame.draw.rect(screen, (0, 255, 0), (cell * self.cell_size, line * self.cell_size, self.cell_size, self.cell_size))

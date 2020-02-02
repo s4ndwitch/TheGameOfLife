@@ -15,7 +15,7 @@ class Cell:
         self.x = x
         self.y = y
         self.board = board
-        self.code = []
+        self.code = [1, 1, 5]
         self.step = 0
         self.count = count
         self.energy = 50
