@@ -91,6 +91,10 @@ class Board:
                         coords = self.get_click(event.pos)
                         if isinstance(coords, list):
                             self.board[coords[1]][coords[0]] = Cell(self, coords[0], coords[1])
+                    if event.button == 3:
+                        coords = self.get_click(event.pos)
+                        if isinstance(coords, list):
+                            self.board[coords[1]][coords[0]] = Wall()
             self.update()
             self.board_render(screen)
             pygame.display.flip()
