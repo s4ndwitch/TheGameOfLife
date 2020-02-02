@@ -11,12 +11,14 @@ class Cell:
         Принимает на вход изначальную доску, чтобы взаимодейсвтует с миром.
         :param board: изначальная доска
         """
+        self.dead_inside = False
         self.x = x
         self.y = y
         self.board = board
-        self.code = [2, 2, 2, 2, 2, 2, 2, 2, 2, 5]  # TODO написать
+        self.code = []
         self.step = 0
         self.count = count
+        self.energy = 50
 
     def move(self, direction):
         if direction == "UP":
@@ -86,6 +88,16 @@ class Cell:
         if num == 6:
             return "TURN TO RIGHT"
 
+    def photosynthesis(self):
+        self.energy += 15
+
+    def DIE(self):
+        self.dead_inside = True
+
     def update(self):
-        self.do(self.get(self.code[self.step]))
-        self.step = (self.step + 1) % len(self.code)
+        if not self.dead_inside:
+            self.energy -= 5
+            self.do(self.get(self.code[self.step]))
+            self.step = (self.step + 1) % len(self.code)
+            if self.energy == 0:
+                self.DIE()
