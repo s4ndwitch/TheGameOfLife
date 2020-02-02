@@ -1,4 +1,5 @@
 from random import randint
+from random import randint
 
 
 class Cell:
@@ -15,7 +16,7 @@ class Cell:
         self.x = x
         self.y = y
         self.board = board
-        self.code = [1, 1, 5]
+        self.code = [7 for _ in range(64)]
         self.step = 0
         self.count = count
         self.energy = 50
@@ -95,14 +96,16 @@ class Cell:
     def mutize(self, cell_coords):
         mutized = False
         for i in range(64):
-            mut
+            mut = random.randint(1, 100)
+            if mut <= 
             self.board.board[cell_coords[1]][cell_coords[0]]
 
     def double(self):
+        doubled = False
         if self.y > 0:
             if self.board.board[self.y - 1][self.x] is None:
-                self.board.board[self.y - 1][self.x] = self
-                self.bpard.board[self.y - 1][self.x]
+                self.board.board[self.y - 1][self.x] = Cell(self.board, self.x, self.y - 1, count + 1)
+                self.board.count += 1
                 self.board.board[self.y - 1][self.x].energy = 50
                 self.board.board[self.y][self.x],energy = 50
                 doubled = True
@@ -113,7 +116,8 @@ class Cell:
         if not doubled:
             if self.x < len(self.board.board[0]) - 1:
                 if self.board.board[self.y][self.x + 1] is None:
-                    self.board.board[self.y][self.x + 1] = self
+                    self.board.board[self.y][self.x + 1] = Cell(self.board, self.x + 1, self.y, self.count + 1)
+                    self.count += 1
                     self.board.board[self.y][self.x + 1].energy = 50
                     self.board.board[self.y][self.x].energy = 50
                     doubled = True
@@ -124,7 +128,8 @@ class Cell:
             if not doubled:
                 if self.y < len(self.board.board) - 1:
                     if self.board.board[self.y + 1][self.x] is None:
-                        self.board.board[self.y + 1][self.x] = self
+                        self.board.board[self.y + 1][self.x] = Cell(self.board, self.x, self.y + 1, self.count + 1)
+                        self.board.count += 1
                         self.board.board[self.y + 1][self.x].energy = 50
                         self.board.board[self.y][self.x].energy = 50
                         doubled = True
@@ -135,7 +140,8 @@ class Cell:
                 if not doubled:
                     if self.x > 0:
                         if self.board.board[self.y][self.x - 1] is None:
-                            self.board.board[self.y][self.x - 1] = self
+                            self.board.board[self.y][self.x - 1] = Cell(self.board, self.x - 1, self.y, self.count + 1)
+                            self.count += 1
                             self.board.board[self.y][self.x - 1].energy = 50
                             self.board.board[self.y][self.x].energy = 50
                             doubled = True
