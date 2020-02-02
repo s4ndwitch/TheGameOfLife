@@ -79,6 +79,7 @@ class Board:
         :return: ничего
         """
         pygame.init()
+        clock = pygame.clock.Clock()
         screen = pygame.display.set_mode(
             (self.x * self.cell_size, self.y * self.cell_size))  # TODO раширять по мере необходимости
 
@@ -96,6 +97,7 @@ class Board:
                         coords = self.get_click(event.pos)
                         if isinstance(coords, list):
                             self.board[coords[1]][coords[0]] = Wall()
+            clock.tick(1)
             self.update()
             screen.fill((0, 0, 0))
             self.board_render(screen)
