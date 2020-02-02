@@ -73,6 +73,8 @@ class Cell:
             self.move("TLEFT")
         if command == "TURN TO RIGHT":
             self.move("TRIGHT")
+        if command == "PHOTOSYNTHESIS":
+            self.photosynthesis()
 
     def get(self, num):
         if num == 1:
@@ -87,6 +89,62 @@ class Cell:
             return "TURN TO LEFT"
         if num == 6:
             return "TURN TO RIGHT"
+        if num == 7:
+            return "PHOTOSYNTHESIS"
+
+    def mutize(self, cell_coords):
+        mutized = False
+        for i in range(64):
+            mut
+            self.board.board[cell_coords[1]][cell_coords[0]]
+
+    def double(self):
+        if self.y > 0:
+            if self.board.board[self.y - 1][self.x] is None:
+                self.board.board[self.y - 1][self.x] = self
+                self.bpard.board[self.y - 1][self.x]
+                self.board.board[self.y - 1][self.x].energy = 50
+                self.board.board[self.y][self.x],energy = 50
+                doubled = True
+            else:
+                doubled = False
+        else:
+            doubled = False
+        if not doubled:
+            if self.x < len(self.board.board[0]) - 1:
+                if self.board.board[self.y][self.x + 1] is None:
+                    self.board.board[self.y][self.x + 1] = self
+                    self.board.board[self.y][self.x + 1].energy = 50
+                    self.board.board[self.y][self.x].energy = 50
+                    doubled = True
+                else:
+                    doubled = False
+            else:
+                doubled = False
+            if not doubled:
+                if self.y < len(self.board.board) - 1:
+                    if self.board.board[self.y + 1][self.x] is None:
+                        self.board.board[self.y + 1][self.x] = self
+                        self.board.board[self.y + 1][self.x].energy = 50
+                        self.board.board[self.y][self.x].energy = 50
+                        doubled = True
+                    else:
+                        doubled = False
+                else:
+                    doubled = False
+                if not doubled:
+                    if self.x > 0:
+                        if self.board.board[self.y][self.x - 1] is None:
+                            self.board.board[self.y][self.x - 1] = self
+                            self.board.board[self.y][self.x - 1].energy = 50
+                            self.board.board[self.y][self.x].energy = 50
+                            doubled = True
+                        else:
+                            doubled = False
+                    else:
+                        doubled = False
+                    if not dobled:
+                        self.energy = 105
 
     def photosynthesis(self):
         self.energy += 15
@@ -95,6 +153,8 @@ class Cell:
         self.dead_inside = True
 
     def update(self):
+        if self.energy == 100:
+            self.double()
         if not self.dead_inside:
             self.energy -= 5
             self.do(self.get(self.code[self.step]))
