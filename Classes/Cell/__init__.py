@@ -10,19 +10,19 @@ class Cell:
         self.x = x
         self.y = y
         self.board = board
-        self.code = [1, 1, 1, 1, 2, 2, 2, 2, 1]  # TODO написать
+        self.code = [1, 2]  # TODO написать
         self.step = 0
 
     def move(self, direction):
         if direction == "UP":
             if self.y > 0:
                 if self.board.board[self.y - 1][self.x] is None:
-                    self.board.baord[self.y - 1][self.x] = self
+                    self.board.board[self.y - 1][self.x] = self
                     self.board.board[self.y][self.x] = None
                     self.y -= 1
         if direction == "RIGHT":
-            if self.x < len(self.board.baord[0]) - 1:
-                if self.board.baord[self.y][self.x + 1] is None:
+            if self.x < len(self.board.board[0]) - 1:
+                if self.board.board[self.y][self.x + 1] is None:
                     self.board.board[self.y][self.x + 1] = self
                     self.board.board[self.y][self.x] = None
                     self.x += 1
@@ -62,4 +62,3 @@ class Cell:
     def update(self):
         self.do(self.get(self.code[self.step]))
         self.step = (self.step + 1) % len(self.code)
-

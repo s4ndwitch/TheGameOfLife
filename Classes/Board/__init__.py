@@ -22,9 +22,10 @@ class Board:
         self.run()
 
     def update(self):
-        for line in board:
+        for line in self.board:
             for cell in line:
-                cell.update()
+                if isinstance(cell, Cell):
+                    cell.update()
 
     def search_on_board(self, mouse_pos):
         """
@@ -96,5 +97,6 @@ class Board:
                         if isinstance(coords, list):
                             self.board[coords[1]][coords[0]] = Wall()
             self.update()
+            screen.fill((0, 0, 0))
             self.board_render(screen)
             pygame.display.flip()
