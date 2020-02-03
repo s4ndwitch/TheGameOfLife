@@ -76,6 +76,14 @@ class Cell:
             self.move("TRIGHT")
         if command == "PHOTOSYNTHESIS":
             self.photosynthesis()
+        if command == "EAT UP":
+            self.eat("UP")
+        if command == "EAT RIGHT":
+            self.eat("RIGHT")
+        if command == "EAT DOWN":
+            self.eat("DOWN")
+        if command == "EAT LEFT":
+            self.eat("LEFT")
 
     def get(self, num):
         if num == 1:
@@ -92,6 +100,14 @@ class Cell:
             return "TURN TO RIGHT"
         if num == 7:
             return "PHOTOSYNTHESIS"
+        if num == 10:
+            return "EAT UP"
+        if num == 11:
+            return "EAT RIGHT"
+        if num == 12:
+            return "EAT DOWN"
+        if num == 13:
+            return "EAT LEFT"
 
     def mutize(self):
         self.code[randint(0, 63)] = randint(1, 7)
@@ -136,6 +152,16 @@ class Cell:
 
     def DIE(self):
         self.dead_inside = True
+
+    def eat(self, direction):
+        if direction == "UP":
+            if self.y > 0:
+                if isinstance(self.board.board[self.y - 1][self.x], Cell):
+                    if self.board.board[self.y - 1][self.x].dead_inside:
+                        self.energy += 25
+                    else:
+                        del self.energy += 15
+                    del self.board.board[self.y - 1][self.x]
 
     def update(self):
         if self.energy == 100:
