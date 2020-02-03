@@ -97,20 +97,16 @@ class Cell:
         self.code[randint(0, 63)] = randint(1, 7)
 
     def double(self):
-        doubled = False
-        if self.y > 0:
-            if self.board.board[self.y - 1][self.x] is None:
-                self.board.board[self.y - 1][self.x] = Cell(self.board, self.x, self.y - 1, self.count + 1)
-                self.board.count += 1
-                self.board.board[self.y - 1][self.x].mutize()
-                self.board.board[self.y - 1][self.x].energy = 50
-                self.board.board[self.y][self.x].energy = 50
-                doubled = True
-            else:
-                doubled = False
-        else:
-            doubled = False
-        if not doubled:
+        direction = randint(1, 4)
+        if direction == 1:
+            if self.y > 0:
+                if self.board.board[self.y - 1][self.x] is None:
+                    self.board.board[self.y - 1][self.x] = Cell(self.board, self.x, self.y - 1, self.count + 1)
+                    self.board.count += 1
+                    self.board.board[self.y - 1][self.x].mutize()
+                    self.board.board[self.y - 1][self.x].energy = 50
+                    self.board.board[self.y][self.x].energy = 50
+        if direction == 2:
             if self.x < len(self.board.board[0]) - 1:
                 if self.board.board[self.y][self.x + 1] is None:
                     self.board.board[self.y][self.x + 1] = Cell(self.board, self.x + 1, self.y, self.count + 1)
@@ -118,39 +114,22 @@ class Cell:
                     self.board.board[self.y][self.x + 1].mutize()
                     self.board.board[self.y][self.x + 1].energy = 50
                     self.board.board[self.y][self.x].energy = 50
-                    doubled = True
-                else:
-                    doubled = False
-            else:
-                doubled = False
-            if not doubled:
-                if self.y < len(self.board.board) - 1:
-                    if self.board.board[self.y + 1][self.x] is None:
-                        self.board.board[self.y + 1][self.x] = Cell(self.board, self.x, self.y + 1, self.count + 1)
-                        self.board.count += 1
-                        self.board.board[self.y + 1][self.x].mutize()
-                        self.board.board[self.y + 1][self.x].energy = 50
-                        self.board.board[self.y][self.x].energy = 50
-                        doubled = True
-                    else:
-                        doubled = False
-                else:
-                    doubled = False
-                if not doubled:
-                    if self.x > 0:
-                        if self.board.board[self.y][self.x - 1] is None:
-                            self.board.board[self.y][self.x - 1] = Cell(self.board, self.x - 1, self.y, self.count + 1)
-                            self.board.count += 1
-                            self.board.board[self.y][self.x - 1].mutize()
-                            self.board.board[self.y][self.x - 1].energy = 50
-                            self.board.board[self.y][self.x].energy = 50
-                            doubled = True
-                        else:
-                            doubled = False
-                    else:
-                        doubled = False
-                    if not doubled:
-                        self.energy = 105
+        if direction == 3:
+            if self.y < len(self.board.board) - 1:
+                if self.board.board[self.y + 1][self.x] is None:
+                    self.board.board[self.y + 1][self.x] = Cell(self.board, self.x, self.y + 1, self.count + 1)
+                    self.board.count += 1
+                    self.board.board[self.y + 1][self.x].mutize()
+                    self.board.board[self.y + 1][self.x].energy = 50
+                    self.board.board[self.y][self.x].energy = 50
+        if direction == 4:
+            if self.x > 0:
+                if self.board.board[self.y][self.x - 1] is None:
+                    self.board.board[self.y][self.x - 1] = Cell(self.board, self.x - 1, self.y, self.count + 1)
+                    self.board.count += 1
+                    self.board.board[self.y][self.x - 1].mutize()
+                    self.board.board[self.y][self.x - 1].energy = 50
+                    self.board.board[self.y][self.x].energy = 50
 
     def photosynthesis(self):
         self.energy += 15
