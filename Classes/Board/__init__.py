@@ -47,8 +47,10 @@ class Board:
         """
         for line in range(len(self.board)):
             for cell in range(len(self.board[line])):
-                if cell * self.cell_size <= mouse_pos[0] <= cell * self.cell_size + self.cell_size and \
-                        line * self.cell_size <= mouse_pos[1] <= line * self.cell_size + self.cell_size:
+                if cell * self.cell_size <= mouse_pos[
+                    0] <= cell * self.cell_size + self.cell_size and \
+                        line * self.cell_size <= mouse_pos[1] <= \
+                        line * self.cell_size + self.cell_size:
                     return [cell, line]
 
     def search_in_gui(self, mouse_pos):
@@ -65,7 +67,8 @@ class Board:
         :param mouse_pos: координаты мыши в момент клика
         :return: номер кнопки или координаты клетки в формате list((x; y))
         """
-        if mouse_pos[0] < len(self.board[0]) * self.cell_size and mouse_pos[1] < len(self.board) * self.cell_size:
+        if mouse_pos[0] < len(self.board[0]) * self.cell_size and mouse_pos[1] < len(
+                self.board) * self.cell_size:
             return self.search_on_board(mouse_pos)
         else:
             return self.search_in_gui(mouse_pos)
@@ -80,27 +83,26 @@ class Board:
             for cell in range(len(self.board[line])):
                 if self.board[line][cell] is None:
                     pygame.draw.rect(screen, (113, 113, 113),
-                                     (cell * self.cell_size, line * self.cell_size, self.cell_size, self.cell_size), 1)
+                                     (cell * self.cell_size, line * self.cell_size, self.cell_size,
+                                      self.cell_size), 1)
                 if isinstance(self.board[line][cell], Cell):
                     if self.board[line][cell].dead_inside:
                         pygame.draw.rect(screen, (162, 168, 172),
-                                         (cell * self.cell_size, line * self.cell_size, self.cell_size, self.cell_size))
+                                         (cell * self.cell_size, line * self.cell_size,
+                                          self.cell_size, self.cell_size))
                         continue
-                    if self.board[line][cell].code.count(7) >= self.board[line][cell].code.count(8) + self.board[line][
-                        cell].code.count(9) + self.board[line][cell].code.count(10) + self.board[line][cell].code.count(
-                            11):
-                        pygame.draw.rect(screen, (0, 255, 0),
-                                         (cell * self.cell_size, line * self.cell_size, self.cell_size, self.cell_size))
-                        continue
-                    if self.board[line][cell].code.count(7) < self.board[line][cell].code.count(8) + self.board[line][
-                        cell].code.count(9) + self.board[line][cell].code.count(10) + self.board[line][cell].code.count(
-                            11):
+                    if 8 in self.board[line][cell].code:
                         pygame.draw.rect(screen, (255, 0, 0),
-                                         (cell * self.cell_size, line * self.cell_size, self.cell_size, self.cell_size))
+                                         (cell * self.cell_size, line * self.cell_size,
+                                          self.cell_size, self.cell_size))
                         continue
+                    pygame.draw.rect(screen, (0, 255, 0), (
+                        cell * self.cell_size, line * self.cell_size, self.cell_size,
+                        self.cell_size))
                 if isinstance(self.board[line][cell], Wall):
                     pygame.draw.rect(screen, (255, 255, 255),
-                                     (cell * self.cell_size, line * self.cell_size, self.cell_size, self.cell_size))
+                                     (cell * self.cell_size, line * self.cell_size, self.cell_size,
+                                      self.cell_size))
 
     def run(self):
         """
@@ -112,7 +114,9 @@ class Board:
         started = True
         clock = pygame.time.Clock()
         screen = pygame.display.set_mode(
-            (self.x * self.cell_size, self.y * self.cell_size))  # TODO раширять по мере необходимости
+            (
+                self.x * self.cell_size,
+                self.y * self.cell_size))  # TODO раширять по мере необходимости
 
         while True:
             for event in pygame.event.get():
@@ -123,14 +127,16 @@ class Board:
                     if event.button == 1:
                         coords = self.get_click(event.pos)
                         if isinstance(coords, list):
-                            self.board[coords[1]][coords[0]] = Cell(self, coords[0], coords[1], self.check)
+                            self.board[coords[1]][coords[0]] = Cell(self, coords[0], coords[1],
+                                                                    self.check)
                     if event.button == 3:
                         coords = self.get_click(event.pos)
                         if isinstance(coords, list):
                             # self.board[coords[1]][coords[0]] = Wall()
                             coords = self.get_click(event.pos)
                             if isinstance(self.board[coords[1]][coords[0]], Cell):
-                                print("Gen-code:\n" + ", ".join([str(i) for i in self.board[coords[1]][coords[0]].code]))
+                                print("Gen-code:\n" + ", ".join(
+                                    [str(i) for i in self.board[coords[1]][coords[0]].code]))
                     if event.button == 4:
                         tick_time += 1
                     if event.button == 5:
