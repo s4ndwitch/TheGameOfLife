@@ -1,4 +1,4 @@
-from random import randint
+from random import randint, choice
 
 
 class Cell:
@@ -16,10 +16,10 @@ class Cell:
         self.x = x
         self.y = y
         self.board = board
-        self.code = [7 for _ in range(64)]
-        self.step = 0
+        self.code = [7 for _ in range(9)]
+        self.age = 0
         self.count = count
-        self.energy = 50
+        self.energy = 255
 
     def move(self, direction):
         if direction == "UP":
@@ -100,49 +100,45 @@ class Cell:
             return "TURN TO RIGHT"
         if num == 7:
             return "PHOTOSYNTHESIS"
-        if num == 10:
+        if num == 8:
             return "EAT UP"
-        if num == 11:
+        if num == 9:
             return "EAT RIGHT"
-        if num == 12:
+        if num == 10:
             return "EAT DOWN"
-        if num == 13:
+        if num == 11:
             return "EAT LEFT"
 
     def mutize(self):
-        self.code[randint(0, 63)] = randint(1, 7)
+        self.code[randint(0, 8)] = randint(1, 11)
 
     def double(self):
         direction = randint(1, 4)
         if direction == 1:
             if self.y > 0:
                 if self.board.board[self.y - 1][self.x] is None:
-                    self.board.board[self.y - 1][self.x] = Cell(self.board, self.x, self.y - 1, self.count + 1)
-                    self.board.count += 1
+                    self.board.board[self.y - 1][self.x] = Cell(self.board, self.x, self.y - 1, self.count)
                     self.board.board[self.y - 1][self.x].mutize()
                     self.board.board[self.y - 1][self.x].energy = 50
                     self.board.board[self.y][self.x].energy = 50
         if direction == 2:
             if self.x < len(self.board.board[0]) - 1:
                 if self.board.board[self.y][self.x + 1] is None:
-                    self.board.board[self.y][self.x + 1] = Cell(self.board, self.x + 1, self.y, self.count + 1)
-                    self.board.count += 1
+                    self.board.board[self.y][self.x + 1] = Cell(self.board, self.x + 1, self.y, self.count)
                     self.board.board[self.y][self.x + 1].mutize()
                     self.board.board[self.y][self.x + 1].energy = 50
                     self.board.board[self.y][self.x].energy = 50
         if direction == 3:
             if self.y < len(self.board.board) - 1:
                 if self.board.board[self.y + 1][self.x] is None:
-                    self.board.board[self.y + 1][self.x] = Cell(self.board, self.x, self.y + 1, self.count + 1)
-                    self.board.count += 1
+                    self.board.board[self.y + 1][self.x] = Cell(self.board, self.x, self.y + 1, self.count)
                     self.board.board[self.y + 1][self.x].mutize()
                     self.board.board[self.y + 1][self.x].energy = 50
                     self.board.board[self.y][self.x].energy = 50
         if direction == 4:
             if self.x > 0:
                 if self.board.board[self.y][self.x - 1] is None:
-                    self.board.board[self.y][self.x - 1] = Cell(self.board, self.x - 1, self.y, self.count + 1)
-                    self.board.count += 1
+                    self.board.board[self.y][self.x - 1] = Cell(self.board, self.x - 1, self.y, self.count)
                     self.board.board[self.y][self.x - 1].mutize()
                     self.board.board[self.y][self.x - 1].energy = 50
                     self.board.board[self.y][self.x].energy = 50
@@ -154,24 +150,60 @@ class Cell:
         self.dead_inside = True
 
     def eat(self, direction):
-        if direction == "UP":
-            if self.y > 0:
-                if isinstance(self.board.board[self.y - 1][self.x], Cell):
-                    if self.board.board[self.y - 1][self.x].dead_inside:
-                        self.energy += 25
-                    else:
-                        del self.energy += 15
-                    del self.board.board[self.y - 1][self.x]
+        directions = ["UP", "RIGHT", "DOWN", "LEFT"]
+        for _ in range(4):
+            direction = choice(directions)
+            ate = False
+            if direction == "UP":
+                if self.y > 0:
+                    if isinstance(self.board.board[self.y - 1][self.x], Cell):
+                        if not self.board.board[self.y - 1][self.x].dead_inside:
+                            self.energy += 45
+                        else:
+                            self.energy += 25
+                        self.board.board[self.y - 1][self.x] = None
+                        ate = True
+            if direction == "RIGHT":
+                if self.x < len(self.board.board[0]) - 1:
+                    if isinstance(self.board.board[self.y][self.x + 1], Cell):
+                        if not self.board.board[self.y][self.x + 1].dead_inside:
+                            self.energy += 45
+                        else:
+                            self.energy += 25
+                        self.board.board[self.y][self.x + 1] = None
+                        ate = True
+            if direction == "DOWN":
+                if self.y < len(self.board.board) - 1:
+                    if isinstance(self.board.board[self.y + 1][self.x], Cell):
+                        if not self.board.board[self.y + 1][self.x].dead_inside:
+                            self.energy += 45
+                        else:
+                            self.energy += 25
+                        self.board.board[self.y + 1][self.x] = None
+                        ate = True
+            if direction == "LEFT":
+                if self.x > 0:
+                    if isinstance(self.board.board[self.y][self.x - 1], Cell):
+                        if not self.board.board[self.y][self.x - 1].dead_inside:
+                            self.energy += 45
+                        else:
+                            self.energy += 25
+                        self.board.board[self.y][self.x - 1] = None
+                        ate = True
+            if not ate:
+                del directions[directions.index(direction)]
 
     def update(self):
-        if self.energy == 100:
-            self.double()
-        if self.step == 20:
+        if self.age == 4500:
+            self.board.board[self.y][self.x] = None
+        if self.age == 1500:
             self.DIE()
         if not self.dead_inside:
-            self.energy -= 5
+            if self.energy >= 1000:
+                self.double()
+            self.energy -= 10
             self.do(self.get(self.code[self.step]))
             self.step = (self.step + 1) % len(self.code)
-            self.step += 1
-            if self.energy == 0:
+            if self.energy <= 0:
                 self.DIE()
+        self.age += 1

@@ -20,18 +20,24 @@ class Board:
         self.y = y
         self.cell_size = cell_size
         self.board = [[None for _ in range(x)] for _ in range(y)]
-        self.count = 0
+        self.check = False
         self.run()
 
     def update(self):
-        counts = []
         for line in self.board:
             for cell in line:
                 if isinstance(cell, Cell):
-                    if cell.count in counts:
+                    if cell.count != self.check:
                         continue
                     cell.update()
-                    counts += [cell.count]
+                    if cell.count:
+                        cell.count = False
+                    else:
+                        cell.count = True
+        if self.check:
+            self.check = False
+        else:
+            self.check = True
 
     def search_on_board(self, mouse_pos):
         """
@@ -73,14 +79,25 @@ class Board:
         for line in range(len(self.board)):
             for cell in range(len(self.board[line])):
                 if self.board[line][cell] is None:
-                    pygame.draw.rect(screen, (255, 255, 255),
+                    pygame.draw.rect(screen, (113, 113, 113),
                                      (cell * self.cell_size, line * self.cell_size, self.cell_size, self.cell_size), 1)
                 if isinstance(self.board[line][cell], Cell):
                     if self.board[line][cell].dead_inside:
                         pygame.draw.rect(screen, (162, 168, 172),
-                                (cell * self.cell_size, line * self.cell_size, self.cell_size, self.cell_size))
+                                         (cell * self.cell_size, line * self.cell_size, self.cell_size, self.cell_size))
                         continue
-                    pygame.draw.rect(screen, (0, 255, 0), (cell * self.cell_size, line * self.cell_size, self.cell_size, self.cell_size))
+                    if self.board[line][cell].code.count(7) >= self.board[line][cell].code.count(8) + self.board[line][
+                        cell].code.count(9) + self.board[line][cell].code.count(10) + self.board[line][cell].code.count(
+                            11):
+                        pygame.draw.rect(screen, (0, 255, 0),
+                                         (cell * self.cell_size, line * self.cell_size, self.cell_size, self.cell_size))
+                        continue
+                    if self.board[line][cell].code.count(7) < self.board[line][cell].code.count(8) + self.board[line][
+                        cell].code.count(9) + self.board[line][cell].code.count(10) + self.board[line][cell].code.count(
+                            11):
+                        pygame.draw.rect(screen, (255, 0, 0),
+                                         (cell * self.cell_size, line * self.cell_size, self.cell_size, self.cell_size))
+                        continue
                 if isinstance(self.board[line][cell], Wall):
                     pygame.draw.rect(screen, (255, 255, 255),
                                      (cell * self.cell_size, line * self.cell_size, self.cell_size, self.cell_size))
@@ -91,7 +108,7 @@ class Board:
         :return: ничего
         """
         pygame.init()
-        tick_time = 10
+        tick_time = 1000
         started = True
         clock = pygame.time.Clock()
         screen = pygame.display.set_mode(
@@ -106,12 +123,19 @@ class Board:
                     if event.button == 1:
                         coords = self.get_click(event.pos)
                         if isinstance(coords, list):
-                            self.board[coords[1]][coords[0]] = Cell(self, coords[0], coords[1], self.count)
-                            self.count += 1
+                            self.board[coords[1]][coords[0]] = Cell(self, coords[0], coords[1], self.check)
                     if event.button == 3:
                         coords = self.get_click(event.pos)
                         if isinstance(coords, list):
-                            self.board[coords[1]][coords[0]] = Wall()
+                            # self.board[coords[1]][coords[0]] = Wall()
+                            coords = self.get_click(event.pos)
+                            if isinstance(self.board[coords[1]][coords[0]], Cell):
+                                print("Gen-code:\n" + ", ".join([str(i) for i in self.board[coords[1]][coords[0]].code]))
+                    if event.button == 4:
+                        tick_time += 1
+                    if event.button == 5:
+                        if tick_time > 1:
+                            tick_time -= 1
                 if event.type == pygame.KEYDOWN:
                     keys = pygame.key.get_pressed()
                     if keys[pygame.K_SPACE]:
@@ -120,7 +144,7 @@ class Board:
                         else:
                             started = True
             if started:
-                clock.tick(tick_time)
+                # clock.tick(tick_time)
                 self.update()
             screen.fill((0, 0, 0))
             self.board_render(screen)
