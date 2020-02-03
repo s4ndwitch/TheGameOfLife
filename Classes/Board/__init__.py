@@ -112,11 +112,7 @@ class Board:
         pygame.init()
         tick_time = 1000
         started = True
-        clock = pygame.time.Clock()
-        screen = pygame.display.set_mode(
-            (
-                self.x * self.cell_size,
-                self.y * self.cell_size))  # TODO раширять по мере необходимости
+        screen = pygame.display.set_mode((self.x * self.cell_size, self.y * self.cell_size))
 
         while True:
             for event in pygame.event.get():
@@ -149,8 +145,9 @@ class Board:
                             started = False
                         else:
                             started = True
+                    if keys[pygame.K_ESCAPE]:
+                        pygame.quit()
             if started:
-                # clock.tick(tick_time)
                 self.update()
             screen.fill((0, 0, 0))
             self.board_render(screen)
