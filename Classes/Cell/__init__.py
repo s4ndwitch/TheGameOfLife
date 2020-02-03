@@ -216,7 +216,7 @@ class Cell:
                             if k == 0 and l == 0:
                                 continue
                             if self.y + k >= len(
-                                    self.board.board) or self.y + k < 0 or self.x + l < 0 or self.x + k >= len(
+                                    self.board.board) or self.y + k < 0 or self.x + l < 0 or self.x + l >= len(
                                 self.board.board[0]):
                                 continue
                             if isinstance(self.board.board[self.y + k][self.x + l], Cell):
