@@ -131,8 +131,11 @@ class Board:
                             # self.board[coords[1]][coords[0]] = Wall()
                             coords = self.get_click(event.pos)
                             if isinstance(self.board[coords[1]][coords[0]], Cell):
+                                print("CELL INFO:")
                                 print("Gen-code:\n" + ", ".join(
                                     [str(i) for i in self.board[coords[1]][coords[0]].code]))
+                                print(f"ENERGY: {self.board[coords[1]][coords[0]].energy}")
+                                print(f"AGE: {self.board[coords[1]][coords[0]].age}")
                     if event.button == 4:
                         tick_time += 1
                     if event.button == 5:
