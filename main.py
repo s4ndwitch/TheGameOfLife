@@ -1,7 +1,7 @@
 from Classes.Board import *
+import configparser
 
-X = 80
-Y = 60
-CELL_SIZE = 10
+config = configparser.ConfigParser()
+config.read("config.ini")
 
-board = Board(X, Y, CELL_SIZE)
+board = Board(config)
