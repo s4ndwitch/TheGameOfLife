@@ -1,2 +1,0 @@
-lines = "\n".join([".".join([str(num), line]) for num, line in enumerate([".".join(i.split(".")[1:]) for i in open("data/Генетический алгоритм.dat", "r").read().split("\n")])])
-open("data/Генетический алгоритм.dat", "w").write(lines)
